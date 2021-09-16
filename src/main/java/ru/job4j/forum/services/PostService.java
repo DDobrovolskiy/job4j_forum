@@ -2,33 +2,36 @@ package ru.job4j.forum.services;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.models.Post;
+import ru.job4j.forum.repository.PostRepository;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PostService {
 
-    private final List<Post> posts = new ArrayList<>();
+    private final PostRepository postRepository;
 
-    public PostService() {
-        var post = Post.of("Продаю машину ладу 01.", "Орон-дон-дон");
-        post.setId(1);
-        posts.add(post);
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public List<Post> getAll() {
+        List<Post> posts = new LinkedList<>();
+        postRepository.findAll().forEach(posts::add);
         return posts;
     }
 
     public Optional<Post> findPostById(int id) {
-        return posts.stream().filter(post -> post.getId() == id).findAny();
+        return postRepository.findById(id);
     }
 
     public int save(Post post) {
-        //TODO проверить что ид не выходит за границу 0 and COUNT
-        posts.add(post);
-        return post.getId();
+        if ((post.getId() < 0) || (post.getId() > postRepository.count())) {
+            post.setId(0);
+        }
+        var postSave = postRepository.save(post);
+        return postSave.getId();
     }
 }
