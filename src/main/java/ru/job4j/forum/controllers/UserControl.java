@@ -7,8 +7,11 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.job4j.forum.models.User;
+import ru.job4j.forum.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @Slf4j
 public class UserControl {
+
+    private final UserService userService;
+
+    public UserControl(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
@@ -55,13 +64,8 @@ public class UserControl {
     }
 
     @PostMapping("/reg")
-    public String registration() {
-        boolean todo = true;
-        //TODO add user in DATABASE
-        if (todo) {
-            return "redirect:/login";
-        } else {
-            return reg();
-        }
+    public String registration(@ModelAttribute User user) {
+        log.debug("User: {}", user);
+        return userService.registration(user) ? "redirect:/login" : reg();
     }
 }
