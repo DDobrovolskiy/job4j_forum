@@ -60,7 +60,7 @@ public class UserControl {
 
     @GetMapping("/reg")
     public String reg() {
-        return "/reg";
+        return "reg";
     }
 
     @PostMapping("/reg")
