@@ -21,6 +21,13 @@
   </properties>
 
   <dependencies>
+    <!--TEST-->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
     <!--SUPPORT-->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -40,6 +47,12 @@
       <version>1.7.5</version>
     </dependency>
     <!--DATABASE-->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.5.1</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
