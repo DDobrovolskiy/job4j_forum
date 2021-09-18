@@ -1,21 +1,28 @@
 package ru.job4j.forum.controllers;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.forum.Main;
 import ru.job4j.forum.models.Post;
 import ru.job4j.forum.services.PostService;
 
-@SpringBootTest(classes = Main.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 public class PostControlTest {
 
@@ -23,6 +30,11 @@ public class PostControlTest {
     private PostService postService;
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    public void postServiceIsNotNull() {
+        Assert.assertNotNull(postService);
+    }
 
     @Test
     @WithMockUser
