@@ -1,6 +1,9 @@
 package ru.job4j.forum.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.models.Role;
@@ -12,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -62,5 +65,14 @@ public class UserService {
             log.error("User is have in database");
             return false;
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        var user = userRepository.findByUsername(s);
+        if (user.isEmpty()) {
+            new UsernameNotFoundException("Not find user");
+        }
+        return user.get();
     }
 }

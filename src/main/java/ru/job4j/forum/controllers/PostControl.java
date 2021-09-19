@@ -1,6 +1,7 @@
 package ru.job4j.forum.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +26,14 @@ public class PostControl {
     @GetMapping({"/", "/posts"})
     public String index(Model model) {
         log.info("User: {}",
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+                SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute(
                 "user",
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+                SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute(
+                "anonymous",
+                SecurityContextHolder.getContext().getAuthentication()
+                        instanceof AnonymousAuthenticationToken);
         model.addAttribute("posts", postService.getAll());
         return "index";
     }

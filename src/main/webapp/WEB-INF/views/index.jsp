@@ -15,15 +15,17 @@
 </head>
 <body>
 <div class="container mt-3">
-<c:if test="${not empty user}">
+Login as : ${user}
+<c:if test="${anonymous}">
     <div>
-            Login as : ${user}
+            <a href="<c:url value='/login'/>">Войти</a>
+    </div>
+</c:if>
+<c:if test="${!anonymous}">
+    <div>
             <a href="<c:url value='/logout'/>">Выйти</a>
     </div>
 </c:if>
-<div>
-        <a href="<c:url value='/login'/>">Войти</a>
-</div>
     <div class="row">
         <h4>Форум job4j</h4>
     </div>

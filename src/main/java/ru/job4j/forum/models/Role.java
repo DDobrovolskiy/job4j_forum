@@ -1,6 +1,7 @@
 package ru.job4j.forum.models;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @ToString(of = {"title"})
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     private long id;
     private String title;
@@ -40,5 +41,10 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String getAuthority() {
+        return title;
     }
 }
